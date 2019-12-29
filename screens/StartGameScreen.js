@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, Button, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 
+import Colors from '../constants/Colors';
+
 import Card from '../components/Card';
 import Input from '../components/Input';
-import Colors from '../constants/Colors';
+import NumberContainer from '../components/NumberContainer';
 
 const StartGameScreen = props => {
     const [enteredValue, setEnteredValue] = useState('');
@@ -29,12 +31,19 @@ const StartGameScreen = props => {
         setConfirmedValue(true);
         setselectedNumber(chosenNumber);
         setEnteredValue('');
+        Keyboard.dismiss();
     }
 
     let confirmedOutput;
 
     if (confirmed) {
-        confirmedOutput = <Text>Chosen number: {selectedNumber}</Text>;
+        confirmedOutput = (
+            <Card style={styles.sumaryContainer}>
+                <Text>You selected</Text>
+                <NumberContainer>{selectedNumber}</NumberContainer>
+                <Button title="START GAME" color={Colors.primary}  onPress={() => props.onStartGame(selectedNumber)}/>
+            </Card>
+        );
     }
 
     return (
@@ -88,7 +97,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '100%',
         justifyContent: 'space-between',
-        paddingHorizontal: 15
+        paddingHorizontal: 15,
+        marginTop: 10
     },
     button: {
         width: '40%',
@@ -97,6 +107,10 @@ const styles = StyleSheet.create({
     input: {
         width: 50,
         textAlign: 'center'
+    },
+    sumaryContainer: {
+        marginTop: 20,
+        alignItems: "center"
     }
 });
 
